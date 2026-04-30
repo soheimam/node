@@ -17,6 +17,8 @@ FROM golang:1.24 AS geth
 
 WORKDIR /app
 
+CMD ls -la
+
 COPY versions.env /tmp/versions.env
 
 RUN . /tmp/versions.env && git clone $OP_GETH_REPO --branch $OP_GETH_TAG --single-branch . && \
