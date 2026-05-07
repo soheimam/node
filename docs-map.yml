@@ -1,0 +1,34 @@
+# Source-glob to docs-file mapping consumed by scripts/load_map.mjs.
+# Each key is a glob matched against changed source paths from the merged
+# commit. Each value is a list of candidate docs files (relative to the docs
+# repository root) that may need updates when those source paths change.
+#
+# Notes:
+# - Globs support `*` (single path segment) and `**` (any depth).
+# - Concrete docs paths assume a Mintlify-style structure under
+#   `node-operators/`. Adjust them to match the actual docs repository before
+#   the workflow ships to production.
+
+"geth/**":
+  - "node-operators/geth.mdx"
+
+"nethermind/**":
+  - "node-operators/nethermind.mdx"
+
+"reth/**":
+  - "node-operators/reth.mdx"
+
+"versions.env":
+  - "node-operators/versions.mdx"
+
+"docker-compose.yml":
+  - "node-operators/quickstart.mdx"
+
+".env.mainnet":
+  - "node-operators/configuration.mdx"
+
+".env.sepolia":
+  - "node-operators/configuration.mdx"
+
+"README.md":
+  - "node-operators/quickstart.mdx"
