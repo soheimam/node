@@ -171,6 +171,7 @@ jobs:
         env:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
           DOCS_TARGET_PATHS: ${{ inputs.docs_target_paths }}
+          DOCS_BRIDGE_MAX_TOKENS: ${{ vars.DOCS_BRIDGE_MAX_TOKENS || '32000' }}
         run: |
           set -euo pipefail
           node source/scripts/docs-bridge/update-docs.mjs \
