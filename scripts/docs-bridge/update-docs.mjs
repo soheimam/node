@@ -49,6 +49,15 @@ const response = await requestDocsUpdate({
 });
 
 validateResponse(response);
+console.log(`[docs-bridge] candidates considered: ${candidates.length}`);
+for (const candidate of candidates) {
+  console.log(`[docs-bridge]   - ${candidate.path} (score=${candidate.score})`);
+}
+console.log(`[docs-bridge] changes proposed: ${response.changes.length}`);
+for (const change of response.changes) {
+  console.log(`[docs-bridge]   - ${change.path}`);
+}
+console.log(`[docs-bridge] LLM summary: ${response.summary.trim()}`);
 applyChanges(response.changes, docsRoot);
 writeFileSync(summaryOutPath, `${response.summary.trim()}\n`);
 writeFileSync(prBodyOutPath, renderPrBody({ metadata, response, candidates }));
