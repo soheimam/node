@@ -60,6 +60,66 @@ You can compare `currentBlock` against the network tip on
 - `geth`
 - `nethermind`
 
+### Flashblocks JSON-RPC methods
+
+When `RETH_FB_WEBSOCKET_URL` is set, the Reth client exposes three additional
+JSON-RPC methods on the standard `:8545` endpoint for working with the
+200&nbsp;ms Flashblocks preconfirmation stream. These are intentionally
+scoped to local operators and are not available on the public sequencer.
+
+#### `flashblocks_getLatestPreconfirmation`
+
+Returns the most recent Flashblock the node has accepted, including its
+preconfirmation height, parent block hash, and the wall-clock timestamp at
+which the sequencer signed it.
+
+Parameters: none.
+
+Returns:
+
+```json
+{
+  "flashblockNumber": "0x1a3f9",
+  "parentBlock": "0x9c2f...",
+  "signedAt": "2026-05-11T10:12:44.812Z",
+  "txCount": 47
+}
+```
+
+#### `flashblocks_subscribeStream`
+
+Opens a WebSocket subscription that pushes a notification every time the
+node accepts a new Flashblock. Useful for indexers and trading bots that
+need to react to preconfirmed state in under 250&nbsp;ms.
+
+Parameters: `["newFlashblocks", { "includeTxHashes": true | false }]`
+
+Notifications follow the standard `eth_subscription` envelope and carry the
+same payload as `flashblocks_getLatestPreconfirmation`, optionally extended
+with a `txHashes` array.
+
+#### `flashblocks_estimateInclusion`
+
+Given a pending transaction hash, returns the Flashblock the node currently
+expects to include it in, or `null` if the transaction is unknown or has
+already been finalized.
+
+Parameters: `["0x<tx-hash>"]`
+
+Returns:
+
+```json
+{
+  "expectedFlashblock": "0x1a3fa",
+  "expectedSlotOffsetMs": 412,
+  "confidence": "high"
+}
+```
+
+> [!NOTE]
+> These methods require Reth built with the `flashblocks` feature flag, which
+> is enabled by default in the images published from this repository.
+
 ## Requirements
 
 ### Minimum Requirements
