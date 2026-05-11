@@ -287,7 +287,10 @@ function logErrorAndExit(details) {
 }
 
 function extractJson(content) {
-  const fencedMatch = content.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+  // Greedy match so nested ```fences``` inside the model's response body
+  // (which can happen when source files contain fenced code samples)
+  // don't truncate the extracted JSON.
+  const fencedMatch = content.match(/```(?:json)?\s*([\s\S]*)\s*```/);
   if (fencedMatch) return fencedMatch[1];
 
   const firstBrace = content.indexOf("{");
