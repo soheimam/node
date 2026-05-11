@@ -38,6 +38,22 @@ Base is a secure, low-cost, developer-friendly Ethereum L2 built on Optimism's [
    NETWORK_ENV=.env.sepolia CLIENT=reth docker compose up --build
    ```
 
+### Verify Sync Status
+
+After starting the node, confirm it is syncing by querying the local JSON-RPC
+endpoint. While the node is still catching up, `eth_syncing` returns an object
+with `currentBlock` / `highestBlock`; once it is fully synced it returns
+`false`.
+
+```bash
+curl -s -X POST http://localhost:8545 \
+  -H 'Content-Type: application/json' \
+  --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}'
+```
+
+You can compare `currentBlock` against the network tip on
+[basescan.org](https://basescan.org) to estimate how far behind the node is.
+
 ### Supported Clients
 
 - `reth` (default)

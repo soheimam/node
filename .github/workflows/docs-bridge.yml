@@ -32,6 +32,7 @@ permissions:
 env:
   DOCS_REPOSITORY: ${{ inputs.docs_repository || 'soheimam/nodes-docs' }}
   LLM_MODEL: ${{ vars.DOCS_LLM_MODEL || vars.LLM_MODEL || 'claude-sonnet-4-6' }}
+  LLM_GATEWAY_BASE_URL: ${{ vars.LLM_GATEWAY_BASE_URL || 'https://api.anthropic.com' }}
 
 jobs:
   generate-docs-pr:
